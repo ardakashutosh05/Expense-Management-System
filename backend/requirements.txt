@@ -1,2 +1,4 @@
-flask
-gunicorn
+Flask
+Flask-CORS
+pymysql
+sqlalchemy
