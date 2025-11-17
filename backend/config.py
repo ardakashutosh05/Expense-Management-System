@@ -3,6 +3,6 @@ import pymysql
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
-    'password': '',
+    'password': 'ashutosh',
     'database': 'expenses_db'
 }
