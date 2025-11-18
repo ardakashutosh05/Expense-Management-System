@@ -2,8 +2,13 @@ from flask import Flask
 from routes.expenses import expenses_bp
 
 app = Flask(__name__)
+
+# register blueprint
 app.register_blueprint(expenses_bp)
 
+@app.route("/")
+def home():
+    return "Expense Management Backend Running!"
+
 if __name__ == "__main__":
-    print("Expense Management Backend Running!")
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True)
