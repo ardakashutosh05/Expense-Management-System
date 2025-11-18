@@ -1,28 +1,21 @@
-import pymysql
-from config import DB_CONFIG
+from database import get_db_connection
 
-def get_connection():
-    return pymysql.connect(
-        host=DB_CONFIG["host"],
-        user=DB_CONFIG["user"],
-        password=DB_CONFIG["password"],
-        database=DB_CONFIG["database"]
-    )
-
-def add_expense(title, amount, category):
-    conn = get_connection()
+# Add a new expense to the database
+def add_expense(title, amount, date, category):
+    conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute(
-        "INSERT INTO expenses (title, amount, category) VALUES (%s, %s, %s)",
-        (title, amount, category)
-    )
+    sql = "INSERT INTO expenses (title, amount, date, category) VALUES (%s, %s, %s, %s)"
+    cursor.execute(sql, (title, amount, date, category))
     conn.commit()
+    cursor.close()
     conn.close()
 
+# Get all expenses from the database
 def get_expenses():
-    conn = get_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, title, amount, category FROM expenses")
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)  # ensures results are dicts
+    cursor.execute("SELECT id, title, amount, date, category FROM expenses")
     rows = cursor.fetchall()
+    cursor.close()
     conn.close()
     return rows
